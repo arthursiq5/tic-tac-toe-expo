@@ -1,11 +1,35 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function App() {
+
+  const [ notification, setNotification ] = useState('Player X to start!')
+  const [refresh, setRefresh] = useState(true)
+  const [ board, setBoard ] = useState([
+    ' ', 'O', ' ',
+    ' ', 'X', ' ',
+    ' ', ' ', ' ',
+  ])
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <StatusBar style='auto' />
+      <Text style={styles.txtTitle}>TicTacToe</Text>
+      <Text style={styles.txtNotification}>{notification}</Text>
+
+      <FlatList
+        style={styles.list}
+        data={board}
+        numColumns={3}
+        refreshing={true}
+        extraData={refresh}
+        renderItem={ ({item, index}) => 
+          <TouchableOpacity style={styles.square}>
+            <Text>{item}</Text>
+          </TouchableOpacity> 
+        }
+      />
     </View>
   );
 }
@@ -17,4 +41,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  txtTitle: {
+    fontSize: 50,
+  },
+  txtNotification: {
+    fontSize: 20
+  },
+  list: {
+    width: 300,
+    height: 400,
+  },
+  square: {
+    height: 60,
+    width: 30,
+    backgroundColor: 'red',
+    margin: 10
+  }
 });
