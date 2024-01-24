@@ -7,10 +7,19 @@ export default function App() {
   const [ notification, setNotification ] = useState('Player X to start!')
   const [refresh, setRefresh] = useState(true)
   const [ board, setBoard ] = useState([
-    ' ', 'O', ' ',
-    ' ', 'X', ' ',
+    ' ', ' ', ' ',
+    ' ', ' ', ' ',
     ' ', ' ', ' ',
   ])
+  const [currentPlayer, setCurrentPlayer] = useState('X')
+
+  const pressField = (index) => {
+    let newBoard = board
+    newBoard[index] = currentPlayer
+    setCurrentPlayer(currentPlayer == 'X' ? 'O' : 'X')
+    setBoard(newBoard)
+    setRefresh(!refresh)
+  }
 
   return (
     <View style={styles.container}>
@@ -25,7 +34,7 @@ export default function App() {
         refreshing={true}
         extraData={refresh}
         renderItem={ ({item, index}) => 
-          <TouchableOpacity style={styles.square}>
+          <TouchableOpacity style={styles.square} onPress={() => pressField(index)}>
             <Text>{item}</Text>
           </TouchableOpacity> 
         }
