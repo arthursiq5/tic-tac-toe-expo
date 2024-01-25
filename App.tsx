@@ -2,23 +2,51 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
+const getEmptyBoard = () => [
+  ' ', ' ', ' ',
+  ' ', ' ', ' ',
+  ' ', ' ', ' ',
+];
+
 export default function App() {
 
   const [ notification, setNotification ] = useState('Player X to start!')
   const [refresh, setRefresh] = useState(true)
-  const [ board, setBoard ] = useState([
-    ' ', ' ', ' ',
-    ' ', ' ', ' ',
-    ' ', ' ', ' ',
-  ])
+  const [ board, setBoard ] = useState(getEmptyBoard())
   const [currentPlayer, setCurrentPlayer] = useState('X')
 
-  const pressField = (index) => {
+  const pressField = (index: number) => {
     let newBoard = board
-    newBoard[index] = currentPlayer
-    setCurrentPlayer(currentPlayer == 'X' ? 'O' : 'X')
-    setBoard(newBoard)
+    if (newBoard[index] == ' ') {
+      newBoard[index] = currentPlayer
+      const player = currentPlayer == 'X' ? 'O' : 'X'
+      setCurrentPlayer(player)
+      setNotification(`Player ${player} to start!`)
+      setBoard(newBoard)
+      setRefresh(!refresh)
+      checkIfPlayerWon(currentPlayer)
+    }
+  }
+
+  const playerWon = (player: string) => {
+    setNotification(`PLAYER ${player} WON`)
+    setBoard(getEmptyBoard())
     setRefresh(!refresh)
+  }
+
+  const checkIfPlayerWon = (player:string) => {
+    if (
+      (board[0] == board[1] && board[1] == board[2] && board[0] != ' ') ||
+      (board[3] == board[4] && board[4] == board[5] && board[3] != ' ') ||
+      (board[6] == board[7] && board[7] == board[8] && board[6] != ' ') ||
+      (board[0] == board[3] && board[3] == board[6] && board[0] != ' ') ||
+      (board[1] == board[4] && board[4] == board[7] && board[1] != ' ') ||
+      (board[2] == board[5] && board[5] == board[8] && board[2] != ' ') ||
+      (board[0] == board[4] && board[4] == board[8] && board[0] != ' ') ||
+      (board[2] == board[4] && board[4] == board[6] && board[2] != ' ')
+    ) {
+      playerWon(player)
+    }
   }
 
   return (
