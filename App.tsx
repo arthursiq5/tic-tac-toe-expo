@@ -8,6 +8,8 @@ const getEmptyBoard = () => [
   ' ', ' ', ' ',
 ];
 
+const delay = (ms:number) => new Promise((res: any) => setTimeout(res, ms))
+
 export default function App() {
 
   const [ notification, setNotification ] = useState('Player X to start!')
@@ -21,17 +23,21 @@ export default function App() {
       newBoard[index] = currentPlayer
       const player = currentPlayer == 'X' ? 'O' : 'X'
       setCurrentPlayer(player)
-      setNotification(`Player ${player} to start!`)
+      setNotification(`Player ${player} to move!`)
       setBoard(newBoard)
       setRefresh(!refresh)
       checkIfPlayerWon(currentPlayer)
     }
   }
 
-  const playerWon = (player: string) => {
+  const playerWon = async (player: string) => {
     setNotification(`PLAYER ${player} WON`)
+    await delay(2000)
     setBoard(getEmptyBoard())
     setRefresh(!refresh)
+    const newPlayer = 'X'
+    setCurrentPlayer(newPlayer)
+    setNotification(`Player ${newPlayer} to move`)
   }
 
   const checkIfPlayerWon = (player:string) => {
