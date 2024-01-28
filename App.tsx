@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 
 const getEmptyBoard = () => [
   ' ', ' ', ' ',
@@ -62,6 +62,10 @@ export default function App() {
       <Text style={styles.txtNotification}>{notification}</Text>
 
       <View style={styles.flatListContainer}>
+        <Image
+          source={require('./assets/board.png')}
+          style={styles.boardImage}
+        />
         <FlatList
           style={styles.list}
           data={board}
@@ -89,7 +93,7 @@ const styles = StyleSheet.create({
   flatListContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: 360,
+    height: 300,
     width: '100%'
   },
   txtTitle: {
@@ -108,8 +112,12 @@ const styles = StyleSheet.create({
   square: {
     height: 100,
     width: 100,
-    backgroundColor: '#aaa',
     justifyContent: 'center',
     alignItems: 'center',
-  }
+  },
+  boardImage: {
+    width: 300,
+    height: 300,
+    position: 'absolute',
+  },
 });
