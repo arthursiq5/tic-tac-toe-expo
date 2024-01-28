@@ -57,6 +57,10 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+      <Image
+        source={require('./assets/background.jpg')}
+        style={styles.backgroundImage}
+      />
       <StatusBar style='auto' />
       <Text style={styles.txtTitle}>TicTacToe</Text>
       <Text style={styles.txtNotification}>{notification}</Text>
@@ -98,12 +102,22 @@ const styles = StyleSheet.create({
   },
   txtTitle: {
     fontSize: 50,
+    position: 'absolute',
+    top: 60,
+    color: '#fff',
   },
   txtNotification: {
     fontSize: 20,
+    position: 'absolute',
+    top: 130,
+    color: '#fff',
   },
   txtOption: {
     fontSize: 60,
+    color: '#fff',
+    textShadowColor: '#F06292',
+    textShadowOffset: {width: 0, height: 0},
+    textShadowRadius: 3
   },
   list: {
     width: 300,
@@ -119,5 +133,12 @@ const styles = StyleSheet.create({
     width: 300,
     height: 300,
     position: 'absolute',
+    backgroundColor: '#90A4AE70'
+  },
+  backgroundImage: {
+    position: 'absolute',
+    zIndex: -1,
+    width: '100%',
+    height: '100%',
   },
 });
