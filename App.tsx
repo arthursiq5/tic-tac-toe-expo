@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { FlatList, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View, Image, Pressable } from 'react-native';
 
 const getEmptyBoard = () => [
   ' ', ' ', ' ',
@@ -16,6 +16,15 @@ export default function App() {
   const [refresh, setRefresh] = useState(true)
   const [ board, setBoard ] = useState(getEmptyBoard())
   const [currentPlayer, setCurrentPlayer] = useState('X')
+  const [newGameButton, setNewGameButton] = useState(true);
+
+  const newGame = () => {
+    setBoard(getEmptyBoard())
+    setRefresh(!refresh)
+    const newPlayer = 'X'
+    setCurrentPlayer(newPlayer)
+    setNotification(`Player ${newPlayer} to move`)
+  }
 
   const pressField = (index: number) => {
     let newBoard = board
@@ -33,11 +42,7 @@ export default function App() {
   const playerWon = async (player: string) => {
     setNotification(`PLAYER ${player} WON`)
     await delay(2000)
-    setBoard(getEmptyBoard())
-    setRefresh(!refresh)
-    const newPlayer = 'X'
-    setCurrentPlayer(newPlayer)
-    setNotification(`Player ${newPlayer} to move`)
+    newGame()
   }
 
   const checkIfPlayerWon = (player:string) => {
@@ -83,6 +88,9 @@ export default function App() {
           }
         />
       </View>
+      {newGameButton && <TouchableOpacity style={styles.newGame} onPress={() => newGame()}>
+        <Text style={styles.txtNewGame}>new game</Text>
+      </TouchableOpacity> }
     </View>
   );
 }
@@ -140,5 +148,16 @@ const styles = StyleSheet.create({
     zIndex: -1,
     width: '100%',
     height: '100%',
+  },
+  newGame: {
+    backgroundColor: '#3a0053',
+    position: 'absolute',
+    bottom: 50,
+    padding: 10,
+    borderRadius: 15,
+  },
+  txtNewGame: {
+    fontSize: 25,
+    color: '#fff'
   },
 });
