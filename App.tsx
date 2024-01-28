@@ -16,7 +16,7 @@ export default function App() {
   const [refresh, setRefresh] = useState(true)
   const [ board, setBoard ] = useState(getEmptyBoard())
   const [currentPlayer, setCurrentPlayer] = useState('X')
-  const [newGameButton, setNewGameButton] = useState(true);
+  const [newGameButton, setNewGameButton] = useState(false);
 
   const newGame = () => {
     setBoard(getEmptyBoard())
@@ -24,6 +24,7 @@ export default function App() {
     const newPlayer = 'X'
     setCurrentPlayer(newPlayer)
     setNotification(`Player ${newPlayer} to move`)
+    setNewGameButton(false)
   }
 
   const pressField = (index: number) => {
@@ -36,13 +37,12 @@ export default function App() {
       setBoard(newBoard)
       setRefresh(!refresh)
       checkIfPlayerWon(currentPlayer)
+      setNewGameButton(true)
     }
   }
 
   const playerWon = async (player: string) => {
     setNotification(`PLAYER ${player} WON`)
-    await delay(2000)
-    newGame()
   }
 
   const checkIfPlayerWon = (player:string) => {
